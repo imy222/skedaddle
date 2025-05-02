@@ -1,0 +1,110 @@
+{
+  "javascript": {
+    "formatter": {
+      "semicolons": true,
+      "quotes": "single",
+      "trailingComma": "es5",
+      "tabWidth": 2,
+      "printWidth": 100,
+      "arrowParens": "always"
+    },
+    "linter": {
+      "rules": {
+        "no-var": "error",
+        "prefer-const": "error",
+        "no-unused-vars": "warn",
+        "no-console": ["warn", { "allow": ["warn", "error"] }],
+        "no-magic-numbers": ["warn", {
+          "ignore": [-1, 0, 1, 2, 60, 90, 180, 360]
+        }],
+        "class-methods-use-this": ["error", {
+          "exceptMethods": [
+            "preload",
+            "create",
+            "update",
+            "init"
+          ]
+        }],
+        "no-await-in-loop": "warn",
+        "require-await": "error",
+        "no-floating-promises": "error",
+        "no-implicit-globals": "error",
+        "complexity": ["warn", 10],
+        "max-depth": ["warn", 4]
+      }
+    },
+    "imports": {
+      "patterns": {
+        "phaser": "^phaser$",
+        "scenes": "./scenes/*.js",
+        "entities": "./entities/*.js",
+        "config": "./config/*.js"
+      }
+    }
+  },
+  "editor": {
+    "formatOnSave": true,
+    "rulers": [100],
+    "tabSize": 2,
+    "insertSpaces": true,
+    "detectIndentation": false,
+    "trimTrailingWhitespace": true,
+    "insertFinalNewline": true
+  },
+  "filePatterns": {
+    "include": [
+      "**/*.js",
+      "**/*.html",
+      "**/*.css"
+    ],
+    "exclude": [
+      "node_modules/**",
+      "dist/**",
+      "build/**",
+      "*.min.js"
+    ]
+  },
+  "recommendations": {
+    "extensions": [
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "ritwickdey.LiveServer"
+    ]
+  },
+  "phaser": {
+    "bestPractices": {
+      "sceneNaming": "PascalCase",
+      "sceneMethodOrder": [
+        "init",
+        "preload",
+        "create",
+        "update"
+      ],
+      "assetLoading": {
+        "preloadLocation": "scene.preload",
+        "assetKeyNaming": "kebab-case"
+      },
+      "gameLoop": {
+        "avoidHeavyComputation": true,
+        "useRequestAnimationFrame": true,
+        "poolGameObjects": true
+      },
+      "physics": {
+        "preferArcade": true,
+        "useCollisionGroups": true,
+        "recyclePhysicsBodies": true
+      }
+    }
+  },
+  "documentation": {
+    "requireJSDoc": true,
+    "tags": [
+      "@scene",
+      "@extends",
+      "@param",
+      "@returns",
+      "@fires",
+      "@listens"
+    ]
+  }
+} 
