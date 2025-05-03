@@ -15,10 +15,10 @@ class BootScene extends Phaser.Scene {
 
         // Load background assets
         this.load.image('background-far', 'assets/background/development/far/background_far.png');
-        this.load.image('background-middle', 'assets/background/development/middle/background-middle.png');
+        this.load.image('background-middle', 'assets/background/development/middle/background_middle_2.png');
         this.load.image('background-front', 'assets/background/development/front/background_front.png');
 
-        // Load individual character frames
+        // Load individual character frames with transparency
         console.log('Loading character idle frames...');
         this.load.image('idle-0', 'assets/character/development/idle/frame-0.png');
         this.load.image('idle-1', 'assets/character/development/idle/frame-1.png');
@@ -31,11 +31,19 @@ class BootScene extends Phaser.Scene {
         this.load.image('run-4', 'assets/character/development/running/frame-4.png');
         this.load.image('run-5', 'assets/character/development/running/frame-5.png');
 
-        // Jumping animation frames
-        this.load.image('jump-0', 'assets/character/development/jumping/frame-0.png');
-        this.load.image('jump-1', 'assets/character/development/jumping/frame-1.png');
-        this.load.image('jump-2', 'assets/character/development/jumping/frame-2.png');
-        this.load.image('jump-3', 'assets/character/development/jumping/frame-3.png');
+        // Jumping animation frames with transparency
+        console.log('Loading jumping frames...');
+        this.load.image('jump-0', 'assets/character/development/jumping/frame-0.png', { premultiplyAlpha: true });
+        this.load.image('jump-1', 'assets/character/development/jumping/frame-1.png', { premultiplyAlpha: true });
+        this.load.image('jump-2', 'assets/character/development/jumping/frame-2.png', { premultiplyAlpha: true });
+        this.load.image('jump-3', 'assets/character/development/jumping/frame-3.png', { premultiplyAlpha: true });
+
+        // Landing animation frames with transparency
+        console.log('Loading landing frames...');
+        this.load.image('land-0', 'assets/character/development/landing/frame-0.png', { premultiplyAlpha: true });
+        this.load.image('land-1', 'assets/character/development/landing/frame-1.png', { premultiplyAlpha: true });
+        this.load.image('land-2', 'assets/character/development/landing/frame-2.png', { premultiplyAlpha: true });
+
         console.log('BootScene: preload completed');
     }
 

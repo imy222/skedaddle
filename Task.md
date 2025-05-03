@@ -15,11 +15,18 @@
   - [x] Install LiveServer extension
 
 ## 2. Asset Preparation
-- [ ] Design and create sprite sheets
-  - [ ] Player character (running, jumping animations)
+- [x] Design and create sprite sheets
+  - [x] Player character animations
+    - [x] Idle animation (individual frames)
+    - [x] Running animation (individual frames)
+    - [x] Jumping animation (individual frames)
+    - [x] Landing animation (individual frames)
   - [ ] Coins (spinning animation)
   - [ ] Obstacles ('Manual Tasks' themed)
-  - [ ] Background elements (parallax layers)
+  - [x] Background elements (parallax layers)
+    - [x] Far background
+    - [x] Middle background
+    - [x] Front background
 - [ ] Create UI elements
   - [ ] Score display
   - [ ] Game Over screen
@@ -48,13 +55,27 @@
 
 ## 4. Core Mechanics Implementation
 - [x] Player mechanics
-  - [ ] Basic movement system
-  - [ ] Jump mechanics
+  - [x] Basic movement system
+    - [x] Left/right movement
+    - [x] Character flipping
+  - [x] Jump mechanics
+    - [x] Jump velocity
+    - [x] Gravity
+    - [x] Ground collision
   - [x] Animation states
-  - [ ] Collision bounds
+    - [x] Idle animation
+    - [x] Running animation
+    - [x] Jump-up animation
+    - [x] Jump-down animation
+    - [x] Landing animation
+  - [x] Collision bounds
 - [x] Environment
   - [x] Scrolling background
-  - [ ] Platform generation
+    - [x] Parallax effect
+    - [x] Multiple layers
+  - [x] Ground implementation
+    - [x] Solid color path
+    - [x] Proper collision
   - [ ] Obstacle spawning system
 - [ ] Collectibles
   - [ ] Coin spawning logic
