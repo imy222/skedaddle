@@ -8,15 +8,42 @@ class GameScene extends Phaser.Scene {
     this.isGameOver = false;
     this.JUMP_VELOCITY = -350;
     this.MOVE_SPEED = 200;
-    this.OBSTACLE_SPEED = -300;
-    this.MIN_SPAWN_TIME = 2000;
-    this.MAX_SPAWN_TIME = 4000;
+    
+    // Base speeds and intervals
+    this.BASE_OBSTACLE_SPEED = -300;
+    this.BASE_COIN_SPEED = -250;
+    this.BASE_MIN_SPAWN_TIME = 2000;
+    this.BASE_MAX_SPAWN_TIME = 4000;
+    
+    // Current speeds (will be modified by difficulty scaling)
+    this.OBSTACLE_SPEED = this.BASE_OBSTACLE_SPEED;
+    this.COIN_SPEED = this.BASE_COIN_SPEED;
+    this.MIN_SPAWN_TIME = this.BASE_MIN_SPAWN_TIME;
+    this.MAX_SPAWN_TIME = this.BASE_MAX_SPAWN_TIME;
+    
+    // Difficulty scaling settings
+    this.DIFFICULTY_INTERVAL = 15000; // Increase difficulty every 15 seconds
+    this.SPEED_INCREASE_FACTOR = 1.1; // 10% faster each time
+    this.SPAWN_DECREASE_FACTOR = 0.9; // 10% shorter intervals each time
+    this.MAX_DIFFICULTY_INCREASES = 5; // Cap difficulty increases at 5 times
+    this.difficultyIncreases = 0;
+    
     this.OBSTACLE_TYPES = ['laptop-barrier', 'digital-stack', 'coffee-cups'];
-    this.COIN_SPEED = -250;
     this.COIN_SPAWN_MIN = 1000;
     this.COIN_SPAWN_MAX = 3000;
     this.COIN_VALUE = 1;
     this.GROUND_Y = 550;
+    
+    // Powerup properties
+    this.isPoweredUp = false;
+    this.powerupDuration = 10000;
+    this.powerupScoreThreshold = 10;
+    this.powerupScale = 1.5;
+    this.originalScale = 0.1;
+    this.powerupTimer = null;
+    this.powerupProgressBar = null;
+    this.powerupEmitter = null;
+    this.powerupGlow = null;
   }
 
   create() {
@@ -85,10 +112,64 @@ class GameScene extends Phaser.Scene {
       fill: '#ffffff'
     });
 
+    // Add restart button in top-right corner
+    const restartBg = this.add.rectangle(gameWidth - 100, 32, 140, 40, 0x6542be);
+    restartBg.setAlpha(0.8);
+    restartBg.setInteractive();
+    
+    const restartText = this.add.text(gameWidth - 100, 32, 'RESTART', {
+      font: 'bold 20px monospace',
+      fill: '#ffffff'
+    });
+    restartText.setOrigin(0.5);
+
+    // Button hover effects
+    restartBg.on('pointerover', () => {
+      restartBg.setFillStyle(0x7e57c2); // Lighter purple
+      this.tweens.add({
+        targets: [restartBg, restartText],
+        scaleX: 1.1,
+        scaleY: 1.1,
+        duration: 100
+      });
+    });
+
+    restartBg.on('pointerout', () => {
+      restartBg.setFillStyle(0x6542be); // MYOB Purple
+      this.tweens.add({
+        targets: [restartBg, restartText],
+        scaleX: 1,
+        scaleY: 1,
+        duration: 100
+      });
+    });
+
+    // Restart game on click
+    restartBg.on('pointerdown', () => {
+      this.tweens.add({
+        targets: [restartBg, restartText],
+        scaleX: 0.95,
+        scaleY: 0.95,
+        duration: 50,
+        yoyo: true,
+        onComplete: () => {
+          this.scene.restart();
+        }
+      });
+    });
+
     // Start idle animation
     if (this.animsCreated) {
       this.player.play('idle');
     }
+
+    // Add difficulty scaling timer
+    this.time.addEvent({
+      delay: this.DIFFICULTY_INTERVAL,
+      callback: this.increaseDifficulty,
+      callbackScope: this,
+      loop: true
+    });
 
     // Start spawning obstacles and coins
     this.spawnObstacle();
@@ -112,12 +193,6 @@ class GameScene extends Phaser.Scene {
       if (touchingGround && this.animsCreated) {
         this.player.play('run', true);
       }
-    } else if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-this.MOVE_SPEED);
-      this.player.flipX = true;
-      if (touchingGround && this.animsCreated) {
-        this.player.play('run', true);
-      }
     } else {
       this.player.setVelocityX(0);
       if (touchingGround && this.animsCreated) {
@@ -126,8 +201,7 @@ class GameScene extends Phaser.Scene {
     }
 
     // Handle jumping
-    if ((Phaser.Input.Keyboard.JustDown(this.cursors.up) || Phaser.Input.Keyboard.JustDown(this.cursors.space)) 
-        && touchingGround) {
+    if ((this.cursors.up.isDown || this.cursors.space.isDown) && touchingGround) {
       this.jump();
     }
 
@@ -154,6 +228,12 @@ class GameScene extends Phaser.Scene {
         coin.destroy();
       }
     });
+
+    // Update glow position
+    if (this.powerupGlow && this.isPoweredUp) {
+      this.powerupGlow.x = this.player.x;
+      this.powerupGlow.y = this.player.y;
+    }
   }
 
   jump() {
@@ -187,6 +267,11 @@ class GameScene extends Phaser.Scene {
 
     this.isGameOver = true;
     
+    // Deactivate powerup if active
+    if (this.isPoweredUp) {
+      this.deactivatePowerup();
+    }
+
     // Stop physics and animations
     this.physics.pause();
     this.player.stop();
@@ -214,115 +299,261 @@ class GameScene extends Phaser.Scene {
     });
   }
 
+  increaseDifficulty() {
+    if (this.isGameOver || this.difficultyIncreases >= this.MAX_DIFFICULTY_INCREASES) return;
+
+    this.difficultyIncreases++;
+
+    // Increase speeds
+    this.OBSTACLE_SPEED *= this.SPEED_INCREASE_FACTOR;
+    this.COIN_SPEED *= this.SPEED_INCREASE_FACTOR;
+
+    // Decrease spawn intervals
+    this.MIN_SPAWN_TIME *= this.SPAWN_DECREASE_FACTOR;
+    this.MAX_SPAWN_TIME *= this.SPAWN_DECREASE_FACTOR;
+
+    // Update existing obstacles and coins with new speed
+    this.obstacles.getChildren().forEach(obstacle => {
+      obstacle.setVelocityX(this.OBSTACLE_SPEED);
+    });
+
+    this.coins.getChildren().forEach(coin => {
+      coin.setVelocityX(this.COIN_SPEED);
+    });
+
+    // Visual feedback for difficulty increase
+    const difficultyText = this.add.text(400, 300, 'Speed Up!', {
+      font: 'bold 32px monospace',
+      fill: '#ff0000'
+    });
+    difficultyText.setOrigin(0.5);
+    difficultyText.setAlpha(0.8);
+
+    this.tweens.add({
+      targets: difficultyText,
+      y: difficultyText.y - 50,
+      alpha: 0,
+      duration: 1000,
+      ease: 'Power2',
+      onComplete: () => difficultyText.destroy()
+    });
+  }
+
   spawnObstacle() {
     if (this.isGameOver) return;
 
-    // Create obstacle at the right edge of the screen, aligned with ground
+    // Create obstacle at the right edge of the screen
     const obstacle = this.obstacles.create(800, this.GROUND_Y, 'obstacles-overtime-clock');
     
-    // Set up obstacle properties with adjusted scale
-    obstacle.setScale(0.06); // Decreased from 0.065 to 0.06
-    obstacle.setVelocityX(this.OBSTACLE_SPEED);
+    obstacle.setScale(0.06);
+    obstacle.setVelocityX(this.OBSTACLE_SPEED); // Use current speed
     obstacle.setImmovable(true);
-    obstacle.setGravityY(0); // Ensure it doesn't fall
+    obstacle.setGravityY(0);
     
-    // Set origin to bottom center to align with ground
     obstacle.setOrigin(0.5, 1);
     
-    // Set body size and offset for better collision
-    const bodyWidth = obstacle.width * 0.4;  // Reduced from 0.6 to 0.4 for tighter collision
-    const bodyHeight = obstacle.height * 0.5; // Reduced from 0.7 to 0.5 for tighter collision
+    const bodyWidth = obstacle.width * 0.3;
+    const bodyHeight = obstacle.height * 0.4;
     obstacle.body.setSize(bodyWidth, bodyHeight);
     obstacle.body.setOffset(
       (obstacle.width - bodyWidth) / 2,
-      obstacle.height - bodyHeight - 5  // Added small offset from bottom to tighten collision
+      obstacle.height - bodyHeight - 8
     );
 
-    // Add to physics group and ensure it stays on ground
     this.physics.add.collider(obstacle, this.ground);
-    obstacle.body.moves = true; // Enable physics movement
-    obstacle.body.allowGravity = false; // Disable gravity
-    obstacle.body.pushable = false; // Prevent being pushed by other objects
+    obstacle.body.moves = true;
+    obstacle.body.allowGravity = false;
+    obstacle.body.pushable = false;
 
-    // Schedule next spawn with increasing difficulty
-    const progress = Math.min(this.score / 1000, 1);
-    const minTime = this.MIN_SPAWN_TIME - (progress * 500);
-    const maxTime = this.MAX_SPAWN_TIME - (progress * 1000);
-    const nextSpawnTime = Phaser.Math.Between(minTime, maxTime);
-    
+    // Schedule next spawn using current spawn times
+    const nextSpawnTime = Phaser.Math.Between(this.MIN_SPAWN_TIME, this.MAX_SPAWN_TIME);
     this.time.delayedCall(nextSpawnTime, () => this.spawnObstacle(), [], this);
   }
 
   onObstacleCollision(player, obstacle) {
-    // Trigger game over
-    this.gameOver();
+    if (this.isPoweredUp) {
+      // Destroy obstacle and create explosion effect
+      const explosion = this.add.particles(obstacle.x, obstacle.y, 'particle', {
+        speed: { min: 100, max: 200 },
+        scale: { start: 0.2, end: 0 },
+        alpha: { start: 1, end: 0 },
+        tint: [0x6542be, 0x00a9e0, 0x62b5e5],
+        lifespan: 500,
+        quantity: 20,
+        emitting: false
+      });
+      explosion.explode(20);
+      obstacle.destroy();
+
+      // Add screen shake
+      this.cameras.main.shake(200, 0.003);
+    } else {
+      if (!this.isGameOver) {
+        this.gameOver();
+      }
+    }
   }
 
   spawnCoin() {
     if (this.isGameOver) return;
 
-    // Create coin at random height between ground and max jump height
-    const groundY = 550; // Ground position
-    const minY = groundY - 150; // 150 pixels above ground
-    const maxY = groundY - 80; // 80 pixels above ground
+    const groundY = 550;
+    const minY = groundY - 150;
+    const maxY = groundY - 80;
     const y = Phaser.Math.Between(minY, maxY);
     
-    // Create coin sprite
     const coin = this.coins.create(800, y, 'coin-spin-0');
     
-    // Set up coin properties with smaller scale
-    coin.setScale(0.05); // Reduced from 0.08 to 0.05
-    coin.setVelocityX(this.COIN_SPEED);
+    coin.setScale(0.05);
+    coin.setVelocityX(this.COIN_SPEED); // Use current speed
     coin.setBounce(0);
     coin.setGravityY(0);
     
-    // Set up smaller physics body
-    coin.body.setSize(24, 24); // Reduced from 32x32 to 24x24
-    coin.body.setOffset(-6, -6); // Adjusted offset for smaller size
+    coin.body.setSize(24, 24);
+    coin.body.setOffset(-6, -6);
     
-    // Play spinning animation
     coin.play('coin-spin');
 
-    // Schedule next spawn
     const nextSpawnTime = Phaser.Math.Between(this.COIN_SPAWN_MIN, this.COIN_SPAWN_MAX);
     this.time.delayedCall(nextSpawnTime, () => this.spawnCoin(), [], this);
   }
 
   collectCoin(player, coin) {
-    // Prevent collecting the same coin multiple times
+    // Prevent multiple collisions with the same coin
     if (coin.collected) return;
     coin.collected = true;
 
-    // Disable physics body immediately to prevent multiple collisions
-    coin.body.enable = false;
-    
-    // Stop the spinning animation and play the faster collection animation
-    coin.stop();
+    // Update score first
+    this.score += this.COIN_VALUE;
+    this.scoreText.setText('Score: ' + this.score);
+
+    // Play coin collection animation and destroy after
     coin.play('coin-collect').once('animationcomplete', () => {
       coin.destroy();
     });
 
-    // Update score
-    this.score += 1;
-    this.scoreText.setText('Score: ' + this.score);
+    // Check for powerup trigger after a short delay
+    if (this.score % this.powerupScoreThreshold === 0) {
+      // Delay powerup activation slightly to avoid frame drops
+      this.time.delayedCall(100, () => {
+        this.activatePowerup();
+      });
+    }
+  }
 
-    // Add faster visual feedback
+  activatePowerup() {
+    if (this.isPoweredUp) {
+      // Reset timer if already powered up
+      if (this.powerupTimer) {
+        this.powerupTimer.reset();
+      }
+      return;
+    }
+
+    this.isPoweredUp = true;
+
+    // Scale up player with simpler animation
+    this.player.setScale(this.powerupScale * this.originalScale);
+
+    // Simple powerup text that fades out
+    const powerupText = this.add.text(this.player.x, this.player.y - 50, 'POWERUP!', {
+      font: 'bold 32px monospace',
+      fill: '#ffffff'
+    });
+    powerupText.setOrigin(0.5);
+    powerupText.setDepth(100);
+
+    // Simple fade out
     this.tweens.add({
-      targets: this.scoreText,
-      scale: 1.2,
-      duration: 50, // Reduced from 100 to 50
-      yoyo: true
+      targets: powerupText,
+      alpha: 0,
+      y: powerupText.y - 30,
+      duration: 500,
+      onComplete: () => powerupText.destroy()
     });
 
-    // Add a quicker particle effect
-    this.add.particles(coin.x, coin.y, 'coin-spin-0', {
-      speed: 150, // Increased from 100 to 150
-      scale: { start: 0.05, end: 0 },
-      alpha: { start: 1, end: 0 },
-      lifespan: 200, // Reduced from 300 to 200
-      quantity: 5,
-      emitting: false
-    }).explode(5);
+    // Create minimal progress bar
+    this.createPowerupProgressBar();
+
+    // Start powerup timer
+    this.powerupTimer = this.time.delayedCall(this.powerupDuration, () => {
+      this.deactivatePowerup();
+    }, [], this);
+
+    // Add simple glow effect
+    const glow = this.add.sprite(this.player.x, this.player.y, 'particle');
+    glow.setScale(4);
+    glow.setAlpha(0.15);
+    glow.setTint(0x6542be);
+    glow.setBlendMode('ADD');
+    glow.setDepth(this.player.depth - 1);
+    this.powerupGlow = glow;
+
+    // Update glow position in update method
+    this.events.on('update', () => {
+      if (this.powerupGlow && this.isPoweredUp) {
+        this.powerupGlow.x = this.player.x;
+        this.powerupGlow.y = this.player.y;
+      }
+    }, this);
+  }
+
+  deactivatePowerup() {
+    if (!this.isPoweredUp) return;
+
+    this.isPoweredUp = false;
+
+    // Simple scale down
+    this.player.setScale(this.originalScale);
+
+    // Clean up effects
+    if (this.powerupGlow) {
+      this.powerupGlow.destroy();
+      this.powerupGlow = null;
+    }
+
+    if (this.powerupProgressBar) {
+      if (this.powerupProgressBar.background) {
+        this.powerupProgressBar.background.destroy();
+      }
+      this.powerupProgressBar.destroy();
+      this.powerupProgressBar = null;
+    }
+
+    // Clean up any remaining tweens
+    this.tweens.killTweensOf(this.player);
+    this.tweens.killTweensOf(this.powerupGlow);
+  }
+
+  createPowerupProgressBar() {
+    const barWidth = 200;
+    const barHeight = 10; // Reduced height
+    const x = this.sys.game.config.width / 2 - barWidth / 2;
+    const y = 20; // Moved higher up
+
+    // Background bar
+    const background = this.add.rectangle(x, y, barWidth, barHeight, 0x000000);
+    background.setOrigin(0, 0);
+    background.setAlpha(0.5); // Reduced alpha
+    background.setDepth(100);
+
+    // Progress bar
+    this.powerupProgressBar = this.add.rectangle(x, y, barWidth, barHeight, 0x6542be);
+    this.powerupProgressBar.setOrigin(0, 0);
+    this.powerupProgressBar.setDepth(100);
+    this.powerupProgressBar.background = background;
+
+    // Update progress bar less frequently
+    this.powerupProgressTimer = this.time.addEvent({
+      delay: 500, // Update every 500ms
+      repeat: this.powerupDuration / 500 - 1,
+      callback: () => {
+        if (this.powerupProgressBar && !this.isGameOver) {
+          const progress = 1 - (this.powerupTimer.getProgress() || 0);
+          this.powerupProgressBar.width = barWidth * progress;
+        }
+      }
+    });
   }
 
   createAnimations() {

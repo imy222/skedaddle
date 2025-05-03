@@ -13,6 +13,15 @@ class BootScene extends Phaser.Scene {
         // Create loading bar
         this.createLoadingBar();
 
+        // Create particle texture
+        const particleTexture = this.textures.createCanvas('particle', 8, 8);
+        const particleContext = particleTexture.getContext();
+        particleContext.fillStyle = '#ffffff';
+        particleContext.beginPath();
+        particleContext.arc(4, 4, 4, 0, Math.PI * 2);
+        particleContext.fill();
+        particleTexture.refresh();
+
         // Load background assets
         this.load.image('background-far', 'assets/background/development/far/background_far.png');
         this.load.image('background-middle', 'assets/background/development/middle/background_middle_2.png');
