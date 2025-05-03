@@ -1,7 +1,7 @@
 const config = {
     type: Phaser.AUTO,
     width: 800,
-    height: 400,
+    height: 600,
     parent: 'game-container',
     physics: {
         default: 'arcade',
@@ -17,5 +17,5 @@ const config = {
         GameOverScene
     ],
     pixelArt: true, // Enable pixel art mode for crisp rendering
-    backgroundColor: '#000000'
+    backgroundColor: '#1a237e' // MYOB Navy color
 }; 
