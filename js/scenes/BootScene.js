@@ -1,9 +1,15 @@
 class BootScene extends Phaser.Scene {
     constructor() {
         super({ key: 'BootScene' });
+        console.log('BootScene: constructor');
+    }
+
+    init() {
+        console.log('BootScene: init');
     }
 
     preload() {
+        console.log('BootScene: preload started');
         // Create loading bar
         this.createLoadingBar();
 
@@ -12,14 +18,28 @@ class BootScene extends Phaser.Scene {
         this.load.image('background-middle', 'assets/background/development/middle/background-middle.png');
         this.load.image('background-front', 'assets/background/development/front/background_front.png');
 
-        // Character assets will be loaded later
-        // this.load.spritesheet('character', 'assets/character/final/character.png', { frameWidth: 32, frameHeight: 48 });
+        // Load individual character frames
+        console.log('Loading character idle frames...');
+        this.load.image('idle-0', 'assets/character/development/idle/frame-0.png');
+        this.load.image('idle-1', 'assets/character/development/idle/frame-1.png');
+
+        // Running animation frames
+        this.load.image('run-0', 'assets/character/development/running/frame-0.png');
+        this.load.image('run-1', 'assets/character/development/running/frame-1.png');
+        this.load.image('run-2', 'assets/character/development/running/frame-2.png');
+        this.load.image('run-3', 'assets/character/development/running/frame-3.png');
+        this.load.image('run-4', 'assets/character/development/running/frame-4.png');
+        this.load.image('run-5', 'assets/character/development/running/frame-5.png');
+
+        // Jumping animation frames
+        this.load.image('jump-0', 'assets/character/development/jumping/frame-0.png');
+        this.load.image('jump-1', 'assets/character/development/jumping/frame-1.png');
+        this.load.image('jump-2', 'assets/character/development/jumping/frame-2.png');
+        this.load.image('jump-3', 'assets/character/development/jumping/frame-3.png');
+        console.log('BootScene: preload completed');
     }
 
     create() {
-        // Create animations once we have character assets
-        // this.createAnimations();
-
         // Start the menu scene
         this.scene.start('MenuScene');
     }
