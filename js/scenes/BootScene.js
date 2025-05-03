@@ -44,6 +44,32 @@ class BootScene extends Phaser.Scene {
         this.load.image('land-1', 'assets/character/development/landing/frame-1.png', { premultiplyAlpha: true });
         this.load.image('land-2', 'assets/character/development/landing/frame-2.png', { premultiplyAlpha: true });
 
+        // Load coin spinning frames
+        console.log('Loading coin spinning frames...');
+        this.load.image('coin-spin-0', 'assets/coins/development/spinning/spinning-frame-0.png');
+        this.load.image('coin-spin-1', 'assets/coins/development/spinning/spinning-frame-1.png');
+        this.load.image('coin-spin-2', 'assets/coins/development/spinning/spinning-frame-2.png');
+        this.load.image('coin-spin-3', 'assets/coins/development/spinning/spinning-frame-3.png');
+        this.load.image('coin-spin-4', 'assets/coins/development/spinning/spinning-frame-4.png');
+        this.load.image('coin-spin-5', 'assets/coins/development/spinning/spinning-frame-5.png');
+        this.load.image('coin-spin-6', 'assets/coins/development/spinning/spinning-frame-6.png');
+        this.load.image('coin-spin-7', 'assets/coins/development/spinning/spinning-frame-7.png');
+
+        // Load coin collection frames
+        console.log('Loading coin collection frames...');
+        this.load.image('coin-collect-0', 'assets/coins/development/collection/collection-frame-0.png');
+        this.load.image('coin-collect-1', 'assets/coins/development/collection/collection-frame-1.png');
+        this.load.image('coin-collect-2', 'assets/coins/development/collection/collection-frame-2.png');
+        this.load.image('coin-collect-3', 'assets/coins/development/collection/collection-frame-3.png');
+        this.load.image('coin-collect-4', 'assets/coins/development/collection/collection-frame-4.png');
+        this.load.image('coin-collect-5', 'assets/coins/development/collection/collection-frame-5.png');
+
+        // Load coin sound effect
+        this.load.audio('coin-collect', 'assets/coins/development/collection/coin-collect.mp3');
+
+        // Load obstacle asset
+        this.load.image('obstacles-overtime-clock', 'assets/obstacles/development/obstacles-overtime-clock.png');
+
         console.log('BootScene: preload completed');
     }
 
