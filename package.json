@@ -1,0 +1,16 @@
+{
+  "name": "skedaddle",
+  "version": "1.0.0",
+  "description": "A runner game where you dodge obstacles and collect coins",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8000 --cors -o"
+  },
+  "keywords": [
+    "game",
+    "phaser",
+    "runner"
+  ],
+  "author": "",
+  "license": "All Rights Reserved"
+}

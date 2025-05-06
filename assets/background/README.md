@@ -19,7 +19,7 @@ Contains individual background layers for parallax scrolling
    - Scroll speed: 0.5x
    - Files:
      - bg-middle.png (Main background)
-     - bg-middle-tile.png (Tileable version)
+     - bg-middle-tile.png (Tileable version)f
 
 3. **Front Layer** (`/development/front/`)
    - Size: 256x64 pixels

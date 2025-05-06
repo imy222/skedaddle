@@ -1,25 +1,31 @@
-# Background Elements Specifications
+# Background Layer Specifications
 
-## Parallax Layers
-Location: Bottom portion (256x128 region)
+## Far Background
+- Resolution: 800x600px
+- Parallax speed: 0.5x
+- Style: Silhouetted cityscape
+- Elements:
+  - City skyline with modern buildings
+  - Gradient sky background
+  - Subtle cloud shapes
 
-### 1. Far Background
-- Size: 256x64 pixels
-- City skyline with MYOB buildings
-- Purple gradient sky
-- Scroll speed: 0.2x
+## Middle Background
+- Resolution: 800x600px
+- Parallax speed: 1x
+- Style: Mid-ground buildings and structures
+- Elements:
+  - Modern office silhouettes
+  - Tech-themed decorative elements
+  - Subtle lighting effects
 
-### 2. Middle Layer
-- Size: 256x64 pixels
-- Modern office silhouettes
-- Digital displays
-- Scroll speed: 0.5x
-
-### 3. Front Layer
-- Size: 256x64 pixels
-- Tech desk items
-- Purple accent lighting
-- Scroll speed: 1.0x
+## Front Background
+- Resolution: 800x600px
+- Parallax speed: 2x
+- Style: Detailed foreground elements
+- Elements:
+  - Street-level details
+  - Tech-themed decorative patterns
+  - Interactive obstacle zones
 
 ### Technical Details
 - Seamless tiling

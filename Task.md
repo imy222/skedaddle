@@ -32,11 +32,6 @@
   - [x] Game Over screen
   - [x] Start/Restart buttons
   - [x] Progress bars
-- [ ] Prepare audio assets
-  - [ ] Jump sound effect
-  - [x] Coin collection sound
-  - [ ] Collision/death sound
-  - [ ] Background music (optional)
 
 ## 3. Basic Game Setup
 - [x] Create HTML structure
@@ -132,7 +127,7 @@
 - [x] Visual polish
   - [x] Particle effects for coins
   - [x] Screen transitions
-  - [x] MYOB brand colors (purple #6542be, navy #1a237e)
+  - [x] Theme colors (purple #6542be, navy #1a237e)
 - [x] Performance optimization
   - [x] Sprite batching
   - [x] Object pooling
@@ -171,7 +166,25 @@
   - [x] Core gameplay testing
   - [x] Performance benchmarking
   - [x] User feedback integration
+- [ ] Cross-browser Testing
+  - [x] Chrome testing
+    - [x] Test core gameplay mechanics
+    - [x] Verify animations and visual effects
+    - [x] Check performance and frame rate
+    - [x] Test input handling (keyboard/mouse)
+  - [x] Firefox testing
+    - [x] Test core gameplay mechanics
+    - [x] Verify animations and visual effects
+    - [x] Check performance and frame rate
+    - [x] Test input handling (keyboard/mouse)
+  - [x] Edge testing
+    - [x] Test core gameplay mechanics
+    - [x] Verify animations and visual effects
+    - [x] Check performance and frame rate
+    - [x] Test input handling (keyboard/mouse)
+  - [x] Document any browser-specific issues or differences
+  - [x] Implement browser-specific fixes if needed
 - [ ] Deployment
-  - [ ] Asset optimization
+  - [x] Asset optimization
   - [ ] Final build
   - [ ] Version tagging 

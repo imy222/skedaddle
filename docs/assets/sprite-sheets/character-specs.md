@@ -1,32 +1,51 @@
-# Character Sprite Sheet Specifications
+# Character Specifications
 
 ## Base Character
-Frame size: 32x48 pixels
-Location: Top-left of sprite sheet (0,0 to 128,192)
+- Resolution: 64x64px per frame
+- Style: Modern tech professional
+- Elements:
+  - Professional attire
+  - Tech-themed accessories
+  - Clean, modern design
 
-### Animations
-1. **Idle Animation** (4 frames)
-   - Business professional stance
-   - Tablet/phone interaction
-   - MYOB-branded attire
-   - Frame duration: 200ms
+## Animations
 
-2. **Running Animation** (6 frames)
-   - Dynamic business running pose
-   - Briefcase motion
-   - Frame duration: 100ms
+### Idle Animation
+- Frames: 4
+- Duration: 1s
+- Elements:
+  - Subtle breathing motion
+  - Occasional tech interaction
 
-3. **Jumping Animation** (4 frames)
-   - Professional leap pose
-   - Purple motion trails
-   - Frame duration: 150ms
+### Running Animation
+- Frames: 6
+- Duration: 0.5s
+- Elements:
+  - Dynamic running motion
+  - Tech particle effects
 
-4. **Landing Animation** (3 frames)
-   - Professional landing pose
-   - Frame duration: 100ms
+### Jumping Animation
+- Frames: 4
+- Duration: 0.4s
+- Elements:
+  - Anticipation frame
+  - Peak frame
+  - Landing preparation
+
+### Landing Animation
+- Frames: 2
+- Duration: 0.2s
+- Elements:
+  - Impact frame
+  - Recovery frame
+
+## Color Scheme
+- Primary: #6542BE (Purple)
+- Secondary: #1A237E (Navy)
+- Accent: #FFFFFF (White)
 
 ## Technical Details
-- Animation frame rate: 12fps
-- Collision bounds: 28x44 pixels
-- Pivot point: Bottom center
-- Hit box offset: 2px from sides 
+- File format: PNG with transparency
+- Frame rate: 24fps
+- Animation loops: Seamless transitions
+- Collision bounds: 80% of visible size 

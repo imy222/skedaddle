@@ -7,86 +7,87 @@ class MenuScene extends Phaser.Scene {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
 
-    // Add semi-transparent background panel
-    const panel = this.add.rectangle(width / 2, height / 2, 400, 300, 0x1a237e);
-    panel.setAlpha(0.3);
+    // Add background
+    const bg = this.add.rectangle(0, 0, width, height, 0x1a237e);
+    bg.setOrigin(0);
+    bg.setAlpha(1);
 
     // Add title
-    const title = this.add.text(width / 2, height / 3, 'SKEDADDLE', {
-      font: 'bold 64px monospace',
+    const title = this.add.text(width / 2, height * 0.2, 'SKEDADDLE', {
+      font: 'bold 72px monospace',
       fill: '#ffffff',
-      stroke: '#6542be', // MYOB Purple
-      strokeThickness: 8,
+      stroke: '#6542be',
+      strokeThickness: 12,
       shadow: { color: '#000000', fill: true, offsetX: 2, offsetY: 2, blur: 8 }
     });
     title.setOrigin(0.5);
 
-    // Add subtitle
-    const subtitle = this.add.text(width / 2, height / 2, 'The 404 Runner Game', {
-      font: '32px monospace',
+    // Create info container
+    const infoContainer = this.add.container(width / 2, height * 0.5);
+    
+    const infoBg = this.add.rectangle(0, 0, 500, 260, 0x000000, 0.3);
+    
+    // Add objective text
+    const objectiveText = this.add.text(0, -90, 'OBJECTIVE:', {
+      font: 'bold 20px monospace',
       fill: '#ffffff',
-      stroke: '#1a237e', // MYOB Navy
-      strokeThickness: 2
+      padding: { x: 16, y: 12 }
     });
-    subtitle.setOrigin(0.5);
+    objectiveText.setOrigin(0.5);
 
-    // Create button background
-    const buttonBg = this.add.rectangle(width / 2, height * 2/3, 200, 50, 0x6542be);
+    const objectiveDesc = this.add.text(0, -45, 'Collect coins and dodge obstacles\nEvery 10 coins grants a power-up!', {
+      font: '18px monospace',
+      fill: '#ffffff',
+      padding: { x: 16, y: 12 },
+      align: 'center'
+    });
+    objectiveDesc.setOrigin(0.5);
+
+    // Add controls text
+    const controlsText = this.add.text(0, 20, 'CONTROLS:', {
+      font: 'bold 20px monospace',
+      fill: '#ffffff',
+      padding: { x: 16, y: 12 }
+    });
+    controlsText.setOrigin(0.5);
+
+    const controlsDesc = this.add.text(0, 65, '↑ or SPACE to Jump\n→ to Move', {
+      font: '18px monospace',
+      fill: '#ffffff',
+      padding: { x: 16, y: 16 },
+      align: 'center'
+    });
+    controlsDesc.setOrigin(0.5);
+
+    infoContainer.add([infoBg, objectiveText, objectiveDesc, controlsText, controlsDesc]);
+
+    // Create button
+    const buttonBg = this.add.rectangle(width / 2, height * 0.8, 240, 70, 0x6542be);
     buttonBg.setInteractive();
     
-    // Add start button text
-    const startButton = this.add.text(width / 2, height * 2/3, 'START GAME', {
-      font: 'bold 24px monospace',
-      fill: '#ffffff'
+    const startButton = this.add.text(width / 2, height * 0.8, 'START GAME', {
+      font: 'bold 28px monospace',
+      fill: '#ffffff',
+      padding: { x: 8, y: 4 },
+      stroke: '#000000',
+      strokeThickness: 2
     });
     startButton.setOrigin(0.5);
 
     // Button hover effects
     buttonBg.on('pointerover', () => {
-      buttonBg.setFillStyle(0x7e57c2); // Lighter purple
-      this.tweens.add({
-        targets: [buttonBg, startButton],
-        scaleX: 1.1,
-        scaleY: 1.1,
-        duration: 100
-      });
+      buttonBg.setFillStyle(0x7e57c2);
     });
 
     buttonBg.on('pointerout', () => {
-      buttonBg.setFillStyle(0x6542be); // MYOB Purple
-      this.tweens.add({
-        targets: [buttonBg, startButton],
-        scaleX: 1,
-        scaleY: 1,
-        duration: 100
-      });
+      buttonBg.setFillStyle(0x6542be);
     });
 
     // Start game on click
     buttonBg.on('pointerdown', () => {
-      this.tweens.add({
-        targets: [buttonBg, startButton],
-        scaleX: 0.95,
-        scaleY: 0.95,
-        duration: 50,
-        yoyo: true,
-        onComplete: () => {
-          this.scene.start('GameScene');
-        }
-      });
-    });
-
-    // Add keyboard control
-    this.input.keyboard.on('keydown-SPACE', () => {
       this.scene.start('GameScene');
     });
-
-    // Fade in animation
-    this.tweens.add({
-      targets: [panel, title, subtitle, buttonBg, startButton],
-      alpha: { from: 0, to: 1 },
-      duration: 1000,
-      ease: 'Power2'
-    });
   }
-} 
+}
+
+export { MenuScene };

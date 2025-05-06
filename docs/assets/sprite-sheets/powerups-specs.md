@@ -1,37 +1,5 @@
 # Power-up Sprite Sheet Specifications
 
-## Cape Power-up
-Frame size: 32x48 pixels
-Location: 128x192 region
-
-### Transform Animation (4 frames)
-- Frame 1: Cape materialization
-- Frame 2: Cape unfurl
-- Frame 3: Cape settle
-- Frame 4: Full flow
-Duration: 100ms per frame
-
-### Powered-Up States
-1. **Running with Cape** (6 frames)
-   - Cape physics properties
-   - Purple gradient effects
-   - Digital trail particles
-
-2. **Jumping with Cape** (4 frames)
-   - Spread cape pose
-   - Enhanced purple trails
-   - Success green accents
-
-### Technical Properties
-- Cape colors:
-  - Main: #6542BE (MYOB Purple)
-  - Trim: #1A237E (MYOB Navy)
-  - Glow: #00A878 (Success Green)
-- Animation timing:
-  - Transform: 400ms
-  - Cape wave: 600ms
-  - Particle refresh: 100ms
-
 # Powerup Specifications
 
 ## Score-Based Size Increase Powerup
@@ -48,15 +16,15 @@ Duration: 100ms per frame
 
 ### Visual Indicators
 1. Activation Effects
-   - Burst of MYOB purple particles around character
-   - Flash of white light
+   - Burst of purple particles around character
+   - Flash of light
    - Screen shake effect (subtle)
    - "POWER UP!" text animation
    - Pulsing glow effect around character
 
 2. During Powerup
    - Character scale increase to 2.5x normal size
-   - Continuous particle trail effect in MYOB colors
+   - Continuous particle trail effect in purple colors
    - Subtle pulsing effect on character (scale 2.5x to 2.3x)
    - Semi-transparent purple aura
    - Timer bar at top of screen showing duration
@@ -71,8 +39,8 @@ Duration: 100ms per frame
 - Initial scale increase: 2.5x normal size
 - Pulse animation: Scale 2.5x to 2.3x (duration: 1000ms, repeat)
 - Particle effects:
-  - Color 1: #6542BE (MYOB Purple)
-  - Color 2: #1A237E (MYOB Navy)
+  - Color 1: #6542BE (Purple)
+  - Color 2: #1A237E (Navy)
   - Color 3: #00A878 (Success Green)
 - Duration timer: 10000ms
 - Smooth transitions:
@@ -93,3 +61,42 @@ Duration: 100ms per frame
 - Smooth transition if powerup expires during jump/movement
 - Ensure particle effects clean up properly
 - Handle rapid score increases gracefully 
+
+# Power-up Effects Specifications
+
+## Visual Effects
+
+### Activation Effect
+- Duration: 0.5s
+- Elements:
+  - Flash of light
+  - Burst of purple particles around character
+  - Scale-up animation
+  - Glow effect
+
+### Active State
+- Duration: 10s
+- Elements:
+  - Continuous particle trail
+  - Character size increase (1.5x)
+  - Pulsing glow effect
+  - Progress bar indicator
+
+### Deactivation
+- Duration: 0.3s
+- Elements:
+  - Fade out particles
+  - Scale down animation
+  - Flash effect
+
+## Color Scheme
+- Primary: #6542BE (Purple)
+- Secondary: #1A237E (Navy)
+- Accent: #FFFFFF (White)
+- Particles: Mix of primary and secondary colors
+
+## Technical Details
+- Sprite sheet dimensions: 64x64px per frame
+- Frame rate: 24fps
+- Total frames: 8 frames per effect
+- File format: PNG with transparency 
