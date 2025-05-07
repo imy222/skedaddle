@@ -168,6 +168,24 @@ class GameScene extends Phaser.Scene {
       });
     }
     
+    // Add restart button in the top right corner
+    this.restartButton = this.add.text(this.cameras.main.width - 70, 16, 'RESET', {
+      font: '18px monospace',
+      fill: '#ffffff',
+      backgroundColor: '#ff0000',
+      padding: { x: 8, y: 4 }
+    });
+    this.restartButton.setInteractive({ useHandCursor: true });
+    this.restartButton.on('pointerdown', () => {
+      this.resetGameState();
+    });
+    
+    // Add restart key
+    this.restartKey = this.input.keyboard.addKey('R');
+    this.restartKey.on('down', () => {
+      this.resetGameState();
+    });
+    
     // Player invincibility for debugging
     if (DEBUG.INVINCIBLE) {
       this.isPoweredUp = true;

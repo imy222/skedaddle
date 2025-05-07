@@ -29,60 +29,60 @@ class BootScene extends Phaser.Scene {
         particleTexture.refresh();
 
         // Load background assets
-        this.load.image('background-far', './assets/background/development/far/background_far.png');
-        this.load.image('background-middle', './assets/background/development/middle/background_middle_2.png');
-        this.load.image('background-front', './assets/background/development/front/background_front.png');
+        this.load.image('background-far', 'assets/background/development/far/background_far.png');
+        this.load.image('background-middle', 'assets/background/development/middle/background_middle_2.png');
+        this.load.image('background-front', 'assets/background/development/front/background_front.png');
 
         // Load individual character frames with transparency
         console.log('Loading character idle frames...');
-        this.load.image('idle-0', './assets/character/development/idle/frame-0.png');
-        this.load.image('idle-1', './assets/character/development/idle/frame-1.png');
-        this.load.image('idle-2', './assets/character/development/idle/frame-2.png');
-        this.load.image('idle-3', './assets/character/development/idle/frame-3.png');
+        this.load.image('idle-0', 'assets/character/development/idle/frame-0.png');
+        this.load.image('idle-1', 'assets/character/development/idle/frame-1.png');
+        this.load.image('idle-2', 'assets/character/development/idle/frame-2.png');
+        this.load.image('idle-3', 'assets/character/development/idle/frame-3.png');
 
         // Running animation frames
-        this.load.image('run-0', './assets/character/development/running/frame-0.png');
-        this.load.image('run-1', './assets/character/development/running/frame-1.png');
-        this.load.image('run-2', './assets/character/development/running/frame-2.png');
-        this.load.image('run-3', './assets/character/development/running/frame-3.png');
-        this.load.image('run-4', './assets/character/development/running/frame-4.png');
-        this.load.image('run-5', './assets/character/development/running/frame-5.png');
+        this.load.image('run-0', 'assets/character/development/running/frame-0.png');
+        this.load.image('run-1', 'assets/character/development/running/frame-1.png');
+        this.load.image('run-2', 'assets/character/development/running/frame-2.png');
+        this.load.image('run-3', 'assets/character/development/running/frame-3.png');
+        this.load.image('run-4', 'assets/character/development/running/frame-4.png');
+        this.load.image('run-5', 'assets/character/development/running/frame-5.png');
 
         // Jumping animation frames with transparency
         console.log('Loading jumping frames...');
-        this.load.image('jump-0', './assets/character/development/jumping/frame-0.png', { premultiplyAlpha: true });
-        this.load.image('jump-1', './assets/character/development/jumping/frame-1.png', { premultiplyAlpha: true });
-        this.load.image('jump-2', './assets/character/development/jumping/frame-2.png', { premultiplyAlpha: true });
-        this.load.image('jump-3', './assets/character/development/jumping/frame-3.png', { premultiplyAlpha: true });
+        this.load.image('jump-0', 'assets/character/development/jumping/frame-0.png', { premultiplyAlpha: true });
+        this.load.image('jump-1', 'assets/character/development/jumping/frame-1.png', { premultiplyAlpha: true });
+        this.load.image('jump-2', 'assets/character/development/jumping/frame-2.png', { premultiplyAlpha: true });
+        this.load.image('jump-3', 'assets/character/development/jumping/frame-3.png', { premultiplyAlpha: true });
 
         // Landing animation frames with transparency
         console.log('Loading landing frames...');
-        this.load.image('land-0', './assets/character/development/landing/frame-0.png', { premultiplyAlpha: true });
-        this.load.image('land-1', './assets/character/development/landing/frame-1.png', { premultiplyAlpha: true });
-        this.load.image('land-2', './assets/character/development/landing/frame-2.png', { premultiplyAlpha: true });
+        this.load.image('land-0', 'assets/character/development/landing/frame-0.png', { premultiplyAlpha: true });
+        this.load.image('land-1', 'assets/character/development/landing/frame-1.png', { premultiplyAlpha: true });
+        this.load.image('land-2', 'assets/character/development/landing/frame-2.png', { premultiplyAlpha: true });
 
         // Load coin spinning frames
         console.log('Loading coin spinning frames...');
-        this.load.image('coin-spin-0', './assets/coins/development/spinning/spinning-frame-0.png');
-        this.load.image('coin-spin-1', './assets/coins/development/spinning/spinning-frame-1.png');
-        this.load.image('coin-spin-2', './assets/coins/development/spinning/spinning-frame-2.png');
-        this.load.image('coin-spin-3', './assets/coins/development/spinning/spinning-frame-3.png');
-        this.load.image('coin-spin-4', './assets/coins/development/spinning/spinning-frame-4.png');
-        this.load.image('coin-spin-5', './assets/coins/development/spinning/spinning-frame-5.png');
-        this.load.image('coin-spin-6', './assets/coins/development/spinning/spinning-frame-6.png');
-        this.load.image('coin-spin-7', './assets/coins/development/spinning/spinning-frame-7.png');
+        this.load.image('coin-spin-0', 'assets/coins/development/spinning/spinning-frame-0.png');
+        this.load.image('coin-spin-1', 'assets/coins/development/spinning/spinning-frame-1.png');
+        this.load.image('coin-spin-2', 'assets/coins/development/spinning/spinning-frame-2.png');
+        this.load.image('coin-spin-3', 'assets/coins/development/spinning/spinning-frame-3.png');
+        this.load.image('coin-spin-4', 'assets/coins/development/spinning/spinning-frame-4.png');
+        this.load.image('coin-spin-5', 'assets/coins/development/spinning/spinning-frame-5.png');
+        this.load.image('coin-spin-6', 'assets/coins/development/spinning/spinning-frame-6.png');
+        this.load.image('coin-spin-7', 'assets/coins/development/spinning/spinning-frame-7.png');
 
         // Load coin collection frames
         console.log('Loading coin collection frames...');
-        this.load.image('coin-collect-0', './assets/coins/development/collection/collection-frame-0.png');
-        this.load.image('coin-collect-1', './assets/coins/development/collection/collection-frame-1.png');
-        this.load.image('coin-collect-2', './assets/coins/development/collection/collection-frame-2.png');
-        this.load.image('coin-collect-3', './assets/coins/development/collection/collection-frame-3.png');
-        this.load.image('coin-collect-4', './assets/coins/development/collection/collection-frame-4.png');
-        this.load.image('coin-collect-5', './assets/coins/development/collection/collection-frame-5.png');
+        this.load.image('coin-collect-0', 'assets/coins/development/collection/collection-frame-0.png');
+        this.load.image('coin-collect-1', 'assets/coins/development/collection/collection-frame-1.png');
+        this.load.image('coin-collect-2', 'assets/coins/development/collection/collection-frame-2.png');
+        this.load.image('coin-collect-3', 'assets/coins/development/collection/collection-frame-3.png');
+        this.load.image('coin-collect-4', 'assets/coins/development/collection/collection-frame-4.png');
+        this.load.image('coin-collect-5', 'assets/coins/development/collection/collection-frame-5.png');
 
         // Load obstacle asset
-        this.load.image('obstacles-overtime-clock', './assets/obstacles/development/obstacles-overtime-clock.png');
+        this.load.image('obstacles-overtime-clock', 'assets/obstacles/development/obstacles-overtime-clock.png');
 
         console.log('BootScene: preload completed');
     }
