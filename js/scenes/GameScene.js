@@ -172,7 +172,7 @@ class GameScene extends Phaser.Scene {
     this.restartButton = this.add.text(this.cameras.main.width - 70, 16, 'RESET', {
       font: '18px monospace',
       fill: '#ffffff',
-      backgroundColor: '#ff0000',
+      backgroundColor: '#6542be',
       padding: { x: 8, y: 4 }
     });
     this.restartButton.setInteractive({ useHandCursor: true });
@@ -196,8 +196,12 @@ class GameScene extends Phaser.Scene {
     if (this.isGameOver) return;
 
     // Disable restart key during game over state
-    this.restartKey.enabled = !this.isGameOver;
-    this.restartButton.setVisible(!this.isGameOver);
+    if (this.restartKey) {
+      this.restartKey.enabled = !this.isGameOver;
+    }
+    if (this.restartButton) {
+      this.restartButton.setVisible(!this.isGameOver);
+    }
 
     // Handle movement
     const touchingGround = this.player.body.touching.down;
